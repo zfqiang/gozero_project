@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package user;
+option go_package="./user";
+
+message Request {
+  string ping = 1;
+}
+
+message Response {
+  string pong = 1;
+}
+
+message GetUserRequest {
+  int64 id = 1;
+}
+
+message GetUserResponse {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+service User {
+  rpc Ping(Request) returns(Response);
+  rpc GetUser(GetUserRequest) returns(GetUserResponse);
+}
+
+//goctl rpc protoc user.proto --go_out=. --go-grpc_out=. --zrpc_out=.

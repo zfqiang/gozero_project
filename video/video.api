@@ -1,0 +1,18 @@
+syntax = "v1"
+
+type Request {
+	id int64 `path:"id"`
+}
+
+type Response {
+	id    int64  `json:"id"`
+	name  string `json:"name"`
+	email string `json:"email"`
+}
+
+service video-api {
+	@handler getVideo
+	get /api/video/:id (Request) returns (Response)
+}
+
+// goctl api go -api video.api -dir .
