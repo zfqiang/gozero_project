@@ -5,6 +5,7 @@ package logic
 
 import (
 	"context"
+	"errors"
 	"response"
 	"user_api/internal/svc"
 	"user_api/internal/types"
@@ -28,11 +29,21 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
 	// todo: add your logic here and delete this line
+
+	// userApiV2, err := l.svcCtx.DB.Table("user_api").Where("username = ?", req.Username).First()
+	userApi, err := l.svcCtx.UsersModel.FindOneByUsername(l.ctx, req.Username)
+	if err != nil {
+		return nil, errors.New("账号不存在")
+	}
+	if userApi.Password != req.Password {
+		return nil, errors.New("密码不正确")
+	}
+
 	accessToken, err := response.GenerateAccessToken(
 		l.svcCtx.Config.Auth.AccessSecret,
 		l.svcCtx.Config.Auth.AccessExpire,
 		1,
-		req.Username,
+		userApi.Username,
 		"role",
 	)
 	if err != nil {

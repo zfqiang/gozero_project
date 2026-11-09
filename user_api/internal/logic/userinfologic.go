@@ -38,19 +38,19 @@ func (l *UserInfoLogic) UserInfo() (resp *types.UserInfoResp, err error) {
 		return nil, errors.New("invalid user ID claim")
 	}
 
-	// username, ok := l.ctx.Value("username").(string)
-	// if !ok {
-	// 	return nil, errors.New("username claim not found")
-	// }
-
 	role, ok := l.ctx.Value("role").(string)
 	if !ok {
 		return nil, errors.New("role claim not found")
 	}
 
+	userApi, err := l.svcCtx.UsersModel.FindOne(l.ctx, userId)
+	if err != nil {
+		return nil, err
+	}
+
 	return &types.UserInfoResp{
 		ID:   userId,
-		Name: "test",
+		Name: userApi.Username,
 		Role: role,
 	}, nil
 }
