@@ -1,0 +1,25 @@
+package handler
+
+import (
+	"github.com/zeromicro/go-zero/rest/httpx"
+	"net/http"
+	"response" // ①
+	"user_api/internal/logic"
+	"user_api/internal/svc"
+	"user_api/internal/types"
+)
+
+func RefreshTokenHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var req types.RefreshReq
+		if err := httpx.Parse(r, &req); err != nil {
+			httpx.Error(w, err)
+			return
+		}
+
+		l := logic.NewRefreshTokenLogic(r.Context(), svcCtx)
+		resp, err := l.RefreshToken(&req)
+		response.Response(w, resp, err) //②
+
+	}
+}

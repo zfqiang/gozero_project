@@ -1,0 +1,8 @@
+Name: user_api
+Host: 0.0.0.0
+Port: 8888
+Auth:
+  AccessSecret: "different-auth-secret"
+  AccessExpire: 86400 # access token TTL: 24 hours
+RefreshSecret: "different-random-secret"
+RefreshExpire: 604800 # refresh token TTL: 7 days

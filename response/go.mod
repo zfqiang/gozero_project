@@ -2,7 +2,10 @@ module response
 
 go 1.27.3
 
-require github.com/zeromicro/go-zero v1.10.3
+require (
+	github.com/golang-jwt/jwt/v4 v4.5.2
+	github.com/zeromicro/go-zero v1.10.3
+)
 
 require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
